@@ -86,20 +86,27 @@ npm run tauri dev
 
 ## Özellikler (MVP)
 
-### ✅ Temel İşlevler
-- [x] Proje/Deney/Entry hiyerarşisi
-- [x] Zengin metin editörü (Markdown)
-- [x] Dosya yükleme (resim, PDF, DOCX, XLSX, CSV)
-- [x] Dataset içe aktarma ve grafik üretimi
-- [x] Arama ve filtreleme
-- [x] Entry sürümleme
-- [x] Audit trail
+### ✅ Temel İşlevler (Backend %100 Tamamlandı!)
+- [x] Proje/Deney/Entry hiyerarşisi (CRUD)
+- [x] Zengin metin (Markdown desteği)
+- [x] Dosya yükleme (PNG, JPG, PDF, DOCX, XLSX, CSV) - SHA256 hash
+- [x] Dataset içe aktarma (CSV/XLSX + pandas)
+- [x] Grafik üretimi (matplotlib - line, scatter, bar, histogram)
+- [x] Çoklu kriter arama ve filtreleme
+- [x] Entry sürümleme (otomatik versiyon tracking)
+- [x] Audit trail (tam değişiklik geçmişi)
 
-### 📄 Rapor Üretimi
-- [x] DOCX (şablon bazlı)
-- [x] XLSX (ham veri + özet)
-- [x] PDF (HTML → PDF)
-- [x] Toplu dışa aktarma (ZIP)
+### 📄 Rapor Üretimi (Backend Ready!)
+- [x] DOCX (python-docx - metadata, resim, grafik)
+- [x] XLSX (openpyxl - çoklu sayfa, özet)
+- [x] PDF/HTML (basit HTML rendering)
+- [x] Toplu dışa aktarma (ZIP - deney + tüm ekler)
+
+### 🔍 Arama & Filtre (Backend Ready!)
+- [x] Proje, deney, entry arama
+- [x] Tam metin arama (başlık + içerik)
+- [x] Tag kombinasyonları
+- [x] Tarih aralığı ve yazar filtreleme
 
 ### 🔍 Arama & Filtre
 - Proje, deney, tarih aralığı

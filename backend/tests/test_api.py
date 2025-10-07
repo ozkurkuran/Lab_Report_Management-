@@ -260,3 +260,55 @@ def test_archive_project(client: TestClient, test_user: User, test_project: Proj
     assert response.status_code == 200
     data = response.json()
     assert data["archived"] is True
+
+
+def test_search_entries(client: TestClient, session: Session, test_user: User, test_project: Project):
+    """Entry arama testi"""
+    # Deney ve entry'ler oluştur
+    experiment = Experiment(
+        project_id=test_project.id,
+        title="Test Deney",
+        tags=["arama", "test"]
+    )
+    session.add(experiment)
+    session.commit()
+    session.refresh(experiment)
+    
+    entry1 = Entry(
+        experiment_id=experiment.id,
+        author_id=test_user.id,
+        title="YBCO Deneyi",
+        body_md="Süperiletken test",
+        tags=["YBCO"]
+    )
+    entry2 = Entry(
+        experiment_id=experiment.id,
+        author_id=test_user.id,
+        title="Grafen Deneyi",
+        body_md="2D malzeme testi",
+        tags=["grafen"]
+    )
+    session.add(entry1)
+    session.add(entry2)
+    session.commit()
+    
+    # Metin araması
+    response = client.get("/api/search/entries?text=YBCO")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) >= 1
+    assert any("YBCO" in e["title"] for e in data)
+    
+    # Tag araması
+    response = client.get("/api/search/entries?tags=grafen")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) >= 1
+
+
+def test_list_templates(client: TestClient):
+    """Şablon listeleme testi"""
+    response = client.get("/api/templates/")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
