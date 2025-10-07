@@ -4,7 +4,10 @@ Lab Report Management System - MVP Backend
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from app.database import create_db_and_tables
 from app.api import projects, experiments, entries, attachments, datasets, reports, search, templates
@@ -32,7 +35,9 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",  # Vite dev server
+        "http://localhost:8000",  # Frontend aynı porttan sunulacak
+        "http://127.0.0.1:8000",
+        "http://localhost:5173",  # Vite dev server (gelecek için)
         "http://127.0.0.1:5173",
         "tauri://localhost",      # Tauri
         "http://tauri.localhost",
@@ -53,15 +58,22 @@ app.include_router(reports.router, prefix="/api/reports", tags=["Reports"])
 app.include_router(search.router, prefix="/api/search", tags=["Search"])
 app.include_router(templates.router, prefix="/api/templates", tags=["Templates"])
 
+# Frontend klasörünü belirle
+FRONTEND_DIR = Path(__file__).parent.parent.parent / "frontend"
 
+# Frontend için root endpoint
 @app.get("/")
-async def root():
-    """API durumu"""
+async def serve_frontend():
+    """Ana sayfa - Frontend HTML'i göster"""
+    html_path = FRONTEND_DIR / "index.html"
+    if html_path.exists():
+        return FileResponse(html_path)
     return {
         "status": "running",
         "app": "Lab Report Management API",
         "version": "1.0.0",
         "docs": "/docs",
+        "message": "Frontend not found. Please create frontend/index.html"
     }
 
 

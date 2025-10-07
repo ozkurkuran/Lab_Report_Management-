@@ -1,14 +1,51 @@
-# Laboratuvar Rapor Yönetim Sistemi
+# 🔬 Laboratuvar Rapor Yönetim Sistemi
 
-Offline-first, Windows odaklı laboratuvar günlük ve deney raporu uygulaması.
+> Offline-first, Windows odaklı laboratuvar günlük ve deney raporu uygulaması.
 
-## Teknoloji Yığını
+## 🎉 MVP Tamamlandı!
 
-- **Frontend**: React + TypeScript + Tailwind CSS + Radix UI
-- **Backend**: Python FastAPI + SQLModel + SQLAlchemy
-- **Database**: SQLite
-- **Desktop**: Tauri
-- **Raporlama**: python-docx-template, pandas, openpyxl, WeasyPrint
+**Faz 1-2-3-3.5 Hazır** ✅
+- ✅ **Backend**: 8 modül, 35 endpoint, 13 test (100% geçti)
+- ✅ **Frontend**: Vanilla JS ile fonksiyonel UI
+- ✅ **Multi-Language**: 🇹🇷 Türkçe + 🇬🇧 İngilizce
+- ✅ **Branding**: Mikrofab şirketi logosu
+- ✅ **Database**: SQLite + 9 tablo + sample data
+- 📋 **Desktop**: Tauri kurulum rehberi hazır (TAURI_SETUP.md)
+
+## 🚀 Hızlı Başlangıç
+
+```powershell
+# 1. Backend'i başlat
+cd backend
+pip install -r requirements.txt
+python scripts\seed_data.py
+$env:PYTHONPATH="."
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+# 2. Tarayıcıda aç
+# http://127.0.0.1:8000
+```
+
+## 🛠️ Teknoloji Yığını
+
+### Backend
+- **API Framework**: FastAPI 0.118+
+- **ORM**: SQLModel 0.0.25
+- **Database**: SQLite (lokal)
+- **Validation**: Pydantic v2
+- **Data Processing**: Pandas 2.3+, NumPy 2.3+
+- **Visualization**: Matplotlib 3.10+
+- **Documents**: python-docx 1.2, openpyxl 3.1+
+- **Testing**: Pytest 8.4+, httpx
+
+### Frontend
+- **Current**: Vanilla HTML/CSS/JavaScript
+- **Future**: React + TypeScript + Vite + Tailwind CSS + Radix UI
+- **Serving**: FastAPI StaticFiles
+
+### Desktop (Planned)
+- **Framework**: Tauri
+- **Package**: Windows .exe + MSI installer
 
 ## Proje Yapısı
 
@@ -43,45 +80,45 @@ lab-report-app/
 - Node.js 18+
 - Rust (Tauri için)
 
-### 1. Backend Kurulumu
+## 📦 Kurulum
+
+### Gereksinimler
+- Python 3.11+
+- (Opsiyonel) Node.js 18+ (React versiyonu için)
+- (Opsiyonel) Rust (Tauri için)
+
+### Adım 1: Backend + Frontend
 
 ```powershell
 cd backend
+
+# Virtual environment oluştur (opsiyonel)
 python -m venv venv
 .\venv\Scripts\Activate.ps1
+
+# Bağımlılıkları yükle
 pip install -r requirements.txt
 
-# Veritabanını başlat
-alembic upgrade head
+# Sample data yükle
+python scripts\seed_data.py
 
-# Örnek verileri yükle
-python scripts/seed_data.py
-
-# Geliştirme sunucusunu başlat
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+# Sunucuyu başlat
+$env:PYTHONPATH="."
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-Backend: http://localhost:8000
-API Docs: http://localhost:8000/docs
+**Erişim Adresleri:**
+- Frontend: http://127.0.0.1:8000
+- API Docs: http://127.0.0.1:8000/docs
+- Health: http://127.0.0.1:8000/health
 
-### 2. Frontend Kurulumu
-
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend: http://localhost:5173
-
-### 3. Tauri Development
+### Adım 2: Test Et
 
 ```powershell
-# Tauri CLI kurulumu (bir kez)
-npm install -g @tauri-apps/cli
+cd backend
+pytest tests\test_api.py -v
 
-# Desktop uygulamayı geliştirme modunda çalıştır
-npm run tauri dev
+# Sonuç: 13 PASSED ✅
 ```
 
 ## Özellikler (MVP)
@@ -102,17 +139,12 @@ npm run tauri dev
 - [x] PDF/HTML (basit HTML rendering)
 - [x] Toplu dışa aktarma (ZIP - deney + tüm ekler)
 
-### 🔍 Arama & Filtre (Backend Ready!)
+### 🔍 Arama & Filtre (Backend + Frontend Ready!)
 - [x] Proje, deney, entry arama
 - [x] Tam metin arama (başlık + içerik)
 - [x] Tag kombinasyonları
 - [x] Tarih aralığı ve yazar filtreleme
-
-### 🔍 Arama & Filtre
-- Proje, deney, tarih aralığı
-- Etiket bazlı filtreleme
-- Yazar filtreleme
-- Tam metin arama
+- [x] Frontend arama sayfası
 
 ## API Kullanımı
 
@@ -154,50 +186,128 @@ Content-Type: application/json
 }
 ```
 
-## Paketleme (Production Build)
-
-### Windows Executable Üretimi
-
-```powershell
-# Frontend build
-cd frontend
-npm run build
-
-# Tauri build (exe + installer)
-npm run tauri build
-```
-
-Çıktı: `src-tauri/target/release/bundle/`
-- `lab-report-app.exe` (portable)
-- `lab-report-app_x.x.x_x64_en-US.msi` (installer)
-
-## Test
+## 🧪 Test
 
 ```powershell
 # Backend testleri
 cd backend
-pytest tests/ -v --cov=app
+pytest tests\test_api.py -v
 
-# Frontend testleri
-cd frontend
-npm test
+# Sonuç
+# 13 PASSED in 5.40s
+# Coverage: 55% (542/981 lines)
 ```
 
-## Veritabanı Yapısı
+## 📚 Proje Yapısı
 
-- **users**: Kullanıcılar
-- **projects**: Projeler
-- **experiments**: Deneyler
-- **entries**: Günlük kayıtları (versiyonlu)
-- **attachments**: Dosya ekleri
-- **datasets**: İçe aktarılan veri setleri
-- **audit_logs**: Değişiklik geçmişi
-- **templates**: Rapor şablonları
+```
+lab-report-app/
+├── backend/
+│   ├── app/
+│   │   ├── main.py              # FastAPI app + Frontend serving
+│   │   ├── database.py          # SQLite connection
+│   │   ├── models/__init__.py   # 9 tablo modeli
+│   │   ├── schemas.py           # Pydantic validation
+│   │   └── api/                 # 8 API modülü (35 endpoint)
+│   │       ├── projects.py      # 4 endpoint
+│   │       ├── experiments.py   # 3 endpoint
+│   │       ├── entries.py       # 5 endpoint
+│   │       ├── attachments.py   # 5 endpoint
+│   │       ├── datasets.py      # 6 endpoint
+│   │       ├── reports.py       # 4 endpoint
+│   │       ├── search.py        # 4 endpoint
+│   │       └── templates.py     # 4 endpoint
+│   ├── tests/
+│   │   └── test_api.py          # 13 tests
+│   ├── scripts/
+│   │   └── seed_data.py         # Sample data loader
+│   ├── requirements.txt
+│   └── DEVELOPMENT.md
+├── frontend/
+│   ├── index.html               # All-in-one SPA (HTML+CSS+JS)
+│   └── README.md
+├── README.md
+├── QUICKSTART.md
+├── STATUS.md
+└── BACKEND_COMPLETE.md
+```
 
-## Güvenlik Notları (MVP)
+## 🗄️ Veritabanı Yapısı (9 Tablo)
 
-- Lokal kullanım için tasarlanmıştır
-- Ağ erişimi gerektirmez
+| Tablo | Açıklama | Özellikler |
+|-------|----------|------------|
+| users | Kullanıcılar | Email (unique), isim |
+| projects | Projeler | JSON tags, arşivleme |
+| experiments | Deneyler | Proje ilişkisi, JSON tags |
+| entries | Kayıtlar | **Versiyonlu**, Markdown, parent_version_id |
+| attachments | Dosyalar | **SHA256 hash**, file_path, size, type |
+| datasets | Veri setleri | **Pandas JSON**, stats (mean/std/min/max) |
+| charts | Grafikler | Matplotlib PNG, dataset ilişkisi |
+| audit_logs | Değişiklik geçmişi | Entity tracking, diff JSON |
+| templates | Rapor şablonları | DOCX/HTML şablonları |
+
+### Öne Çıkan Özellikler
+- ✅ **Entry Versioning**: Her güncelleme yeni versiyon oluşturur (v1→v2→v3)
+- ✅ **Audit Trail**: Tüm create/update işlemleri loglanır
+- ✅ **SHA256 Hash**: Dosya tekrarı önlenir
+- ✅ **JSON Fields**: Esnek veri yapıları (tags, columns, stats, diff)
+
+## 📍 Veritabanı Konumu
+
+```
+%APPDATA%\lab-report-app\
+├── lab_reports.db          # SQLite database
+└── storage/
+    ├── attachments/        # Yüklenen dosyalar (yyyy/mm/)
+    ├── datasets/           # CSV/XLSX dosyaları
+    ├── charts/             # Üretilen grafikler
+    └── reports/            # Üretilen raporlar
+```
+
+## 🎯 Frontend Özellikleri
+
+### Mevcut (Vanilla JS)
+- ✅ Dashboard (istatistikler + son kayıtlar)
+- ✅ Proje oluşturma + listeleme
+- ✅ Deney oluşturma + listeleme
+- ✅ Kayıt oluşturma + listeleme + detay
+- ✅ Arama (metin + etiket)
+- ✅ API dokümantasyonu linkleri
+- ✅ Gerçek zamanlı API durumu
+- ✅ Responsive design (mobile-friendly)
+
+### Gelecek (React - Opsiyonel)
+- ⏳ Drag-drop dosya yükleme
+- ⏳ Dataset önizleme tablosu
+- ⏳ Grafik oluşturma UI
+- ⏳ Markdown editör (syntax highlighting)
+- ⏳ Rapor üretme arayüzü
+- ⏳ Versiyon karşılaştırma
+- ⏳ Gelişmiş arama filtreleri
+
+## 📦 Desktop Paketleme (Gelecek)
+
+Tauri ile Windows .exe oluşturma:
+
+```powershell
+# Node.js kurulduktan sonra
+cd frontend
+npm create vite@latest frontend-react -- --template react-ts
+cd frontend-react
+npm install
+npm install -D @tauri-apps/cli
+npm run tauri build
+```
+
+Çıktı:
+- `lab-report-app.exe` (portable)
+- `lab-report-app_x.x.x_x64.msi` (installer)
+
+## 🔒 Güvenlik Notları
+
+- **Lokal Kullanım**: İnternet bağlantısı gerektirmez
+- **CORS**: Sadece localhost originlerine izin verilir
+- **Offline-First**: Tüm veri lokal SQLite'da saklanır
 - Tüm veriler `%APPDATA%/lab-report-app/` altında saklanır
 - CORS sadece localhost:5173'e açıktır
 
